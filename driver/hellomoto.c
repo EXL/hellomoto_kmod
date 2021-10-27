@@ -4,12 +4,17 @@
  * Edited by EXL, 27-Oct-2021.
  */
 
+#include <asm/uaccess.h>
+
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/proc_fs.h>
 
-#include <asm/uaccess.h>
+#ifdef MOTOMAGX
+#include <linux/keypad.h>
+#include <linux/power_ic_kernel.h>
+#endif
 
 #define PROC_ENTRY_FILENAME "hellomoto"
 #define KERNEL_MESSAGE_BUFFER_LENGTH 64
@@ -51,7 +56,8 @@ static ssize_t module_input(struct file *filp, const char *buff, size_t len, lof
 	printk(KERN_ALERT "hellomoto: Keycode: 0x%04X, Dec: %hu!\n", keycode, keycode);
 
 #ifdef MOTOMAGX
-	mxc_kpp_handle_mode(keycode);
+//	generate_key_event(KEYPAD_HANGUP, KEYUP);
+//	generate_key_event(KEYPAD_HANGUP, KEYDOWN);
 #endif
 
 	return i;
