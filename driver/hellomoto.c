@@ -12,6 +12,8 @@
 #include <linux/proc_fs.h>
 
 #ifdef MOTOMAGX
+#include <asm-arm/mot-gpio.h>
+
 #include <linux/keypad.h>
 #include <linux/power_ic_kernel.h>
 #endif
@@ -32,12 +34,19 @@ static struct proc_dir_entry *g_ptr_proc_file = NULL;
 static ssize_t module_output(struct file *filp, char *buffer, size_t length, loff_t *offset) {
 	static int finished = 0;
 	int i;
+	unsigned int accel_data = 0;
 	char message[USER_MESSAGE_BUFFER_LENGTH];
 	if (finished) {
 		finished = 0;
 		return 0;
 	}
+#ifndef AURA
+	accel_data = 0;
 	snprintf(message, USER_MESSAGE_BUFFER_LENGTH, "Last input: %s\n", g_str_message_buffer);
+#else
+	accel_data = gpio_signal_get_data_check(GPIO_SIGNAL_BLADE_INT);
+	snprintf(message, USER_MESSAGE_BUFFER_LENGTH, "Accelerometer: 0x%08X\n", accel_data);
+#endif
 	for (i = 0; i < length && message[i]; ++i)
 		put_user(message[i], buffer + i);
 	finished = 1;
