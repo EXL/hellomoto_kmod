@@ -20,7 +20,7 @@
 #define REMOVE_PROC_ENTRY remove_proc_entry(PROC_ENTRY_FILENAME, NULL)
 #endif
 
-static char g_str_message_buffer[KERNEL_MESSAGE_BUFFER_LENGTH];
+static char g_str_message_buffer[KERNEL_MESSAGE_BUFFER_LENGTH] = { '\0' };
 static struct proc_dir_entry *g_ptr_proc_file = NULL;
 
 static ssize_t module_output(struct file *filp, char *buffer, size_t length, loff_t *offset) {
@@ -40,9 +40,14 @@ static ssize_t module_output(struct file *filp, char *buffer, size_t length, lof
 
 static ssize_t module_input(struct file *filp, const char *buff, size_t len, loff_t *off) {
 	int i;
+	unsigned short keycode;
+
 	for (i = 0; i < KERNEL_MESSAGE_BUFFER_LENGTH - 1 && i < len; ++i)
 		get_user(g_str_message_buffer[i], buff + i);
 	g_str_message_buffer[i] = '\0';
+
+	keycode = simple_strtoul(g_str_message_buffer, NULL, 0);
+	printk(KERN_ALERT "hellomoto: Input: %s, Keycode: 0x%04X, Dec: %hu!\n", g_str_message_buffer, keycode, keycode);
 	return i;
 }
 
