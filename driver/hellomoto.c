@@ -44,7 +44,7 @@ static ssize_t module_output(struct file *filp, char *buffer, size_t length, lof
 	accel_data = 0;
 	snprintf(message, USER_MESSAGE_BUFFER_LENGTH, "Last input: %s\n", g_str_message_buffer);
 #else
-	accel_data = gpio_signal_get_data_check(GPIO_SIGNAL_BLADE_INT);
+	accel_data = gpio_signal_get_data_check(GPIO_SIGNAL_LENS_COVER);
 	snprintf(message, USER_MESSAGE_BUFFER_LENGTH, "Accelerometer: 0x%08X\n", accel_data);
 #endif
 	for (i = 0; i < length && message[i]; ++i)
