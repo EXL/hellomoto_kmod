@@ -48,7 +48,12 @@ static ssize_t module_input(struct file *filp, const char *buff, size_t len, lof
 	g_str_message_buffer[i] = '\0';
 
 	keycode = simple_strtoul(g_str_message_buffer, NULL, 0);
-	printk(KERN_ALERT "hellomoto: Input: %s, Keycode: 0x%04X, Dec: %hu!\n", g_str_message_buffer, keycode, keycode);
+	printk(KERN_ALERT "hellomoto: Keycode: 0x%04X, Dec: %hu!\n", keycode, keycode);
+
+#ifdef MOTOMAGX
+	mxc_kpp_handle_mode(keycode);
+#endif
+
 	return i;
 }
 
