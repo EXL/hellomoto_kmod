@@ -14,8 +14,10 @@
 #define KERNEL_MESSAGE_BUFFER_LENGTH 64
 #define USER_MESSAGE_BUFFER_LENGTH KERNEL_MESSAGE_BUFFER_LENGTH + 16
 
-#ifndef MOTOMAGX
-#define &proc_root NULL
+#ifdef MOTOMAGX
+#define REMOVE_PROC_ENTRY remove_proc_entry(PROC_ENTRY_FILENAME, &proc_root)
+#else
+#define REMOVE_PROC_ENTRY remove_proc_entry(PROC_ENTRY_FILENAME, NULL)
 #endif
 
 static char g_str_message_buffer[KERNEL_MESSAGE_BUFFER_LENGTH];
@@ -96,7 +98,7 @@ int init_module(void) {
 	g_ptr_proc_file = proc_create(PROC_ENTRY_FILENAME, 0666, NULL, &g_struct_proc_ops);
 #endif
 	if (g_ptr_proc_file == NULL) {
-		remove_proc_entry(PROC_ENTRY_FILENAME, &proc_root);
+		REMOVE_PROC_ENTRY;
 		printk(KERN_ALERT "hellomoto: Could not initialize \"/proc/hellomoto\", sorry!\n");
 		return -ENOMEM;
 	}
@@ -104,7 +106,7 @@ int init_module(void) {
 }
 
 void cleanup_module(void) {
-	remove_proc_entry(PROC_ENTRY_FILENAME, &proc_root);
+	REMOVE_PROC_ENTRY;
 	printk(KERN_ALERT "hellomoto: Goodbye, MotoMAGX modders!\n");
 }
 
