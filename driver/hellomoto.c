@@ -46,18 +46,18 @@ static ssize_t module_output(struct file *filp, char *buffer, size_t length, lof
 
 static ssize_t module_input(struct file *filp, const char *buff, size_t len, loff_t *off) {
 	int i;
-	unsigned short keycode;
+	unsigned short keycode, status;
 
 	for (i = 0; i < KERNEL_MESSAGE_BUFFER_LENGTH - 1 && i < len; ++i)
 		get_user(g_str_message_buffer[i], buff + i);
 	g_str_message_buffer[i] = '\0';
 
-	keycode = simple_strtoul(g_str_message_buffer, NULL, 0);
-	printk(KERN_ALERT "hellomoto: Keycode: 0x%04X, Dec: %hu!\n", keycode, keycode);
+	status = simple_strtoul(&g_str_message_buffer[0], NULL, 10);
+	keycode = simple_strtoul(g_str_message_buffer + 2, NULL, 10);
+	printk(KERN_ALERT "hellomoto: Keycode: 0x%04X, Dec: %hu, Status: %hu!\n", keycode, keycode, status);
 
 #ifdef MOTOMAGX
-//	generate_key_event(KEYPAD_HANGUP, KEYUP);
-//	generate_key_event(KEYPAD_HANGUP, KEYDOWN);
+	generate_key_event(keycode, (status) ? KEYDOWN : KEYUP);
 #endif
 
 	return i;
