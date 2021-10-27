@@ -1,7 +1,7 @@
 # Makefile for host kernel module "hellomoto" for testing purposes.
 # Written by EXL, 27-Oct-2021.
 
-obj-m += hellomoto.o
+obj-m += hellomoto_host.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
