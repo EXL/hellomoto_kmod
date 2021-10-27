@@ -5,6 +5,6 @@ include ${PROPFILES}
 
 MODULE_NAME = hellomoto
 
-CFLAGS += -O2 -I$(STD_INCPATH)
+CFLAGS += -DMOTOMAGX -O2 -I$(STD_INCPATH)
 
 obj-m := $(MODULE_NAME).o
