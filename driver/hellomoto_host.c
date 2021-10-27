@@ -70,6 +70,7 @@ static struct file_operations g_struct_file_ops = {
 
 int init_module(void) {
 	printk(KERN_ALERT "hellomoto: Hello, MotoMAGX modders!\n");
+#if 0
 	g_ptr_proc_file = create_proc_entry(PROC_ENTRY_FILENAME, 0666, NULL);
 	g_ptr_proc_file->owner = THIS_MODULE;
 	g_ptr_proc_file->proc_iops = &g_struct_inode_ops;
@@ -78,6 +79,8 @@ int init_module(void) {
 	g_ptr_proc_file->uid = 0;
 	g_ptr_proc_file->gid = 0;
 	g_ptr_proc_file->size = 80;
+#endif
+	g_ptr_proc_file proc_create(PROC_ENTRY_FILENAME, 0666, NULL, &g_struct_file_ops);
 	if (g_ptr_proc_file == NULL) {
 		remove_proc_entry(PROC_ENTRY_FILENAME, &proc_root);
 		printk(KERN_ALERT "hellomoto: Could not initialize \"/proc/hellomoto\", sorry!\n");
