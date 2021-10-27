@@ -4,6 +4,7 @@
  * Edited by EXL, 27-Oct-2021.
  */
 
+#include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/proc_fs.h>
@@ -88,7 +89,7 @@ static struct proc_ops g_struct_proc_ops = {
 };
 #endif
 
-int init_module(void) {
+static int hellomoto_init(void) {
 	printk(KERN_ALERT "hellomoto: Hello, MotoMAGX modders!\n");
 #ifdef MOTOMAGX
 	g_ptr_proc_file = create_proc_entry(PROC_ENTRY_FILENAME, 0666, NULL);
@@ -110,10 +111,13 @@ int init_module(void) {
 	return 0;
 }
 
-void cleanup_module(void) {
+static void hellomoto_exit(void) {
 	REMOVE_PROC_ENTRY;
 	printk(KERN_ALERT "hellomoto: Goodbye, MotoMAGX modders!\n");
 }
+
+module_init(hellomoto_init);
+module_exit(hellomoto_exit);
 
 MODULE_AUTHOR("EXL");
 MODULE_DESCRIPTION("Kernel module for testing purposes");
