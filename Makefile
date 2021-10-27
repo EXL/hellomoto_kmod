@@ -1,6 +1,6 @@
-# Makefile for the "hellomoto" kernel module
-# Written by EXL, 27-Sep-2016
-# Edited by EXL, 27-Oct-2021
+# Makefile for kernel module "hellomoto" for testing purposes.
+# Written by EXL, 27-Sep-2016.
+# Edited by EXL, 27-Oct-2021.
 
 include $(BOOTSTRAP)
 

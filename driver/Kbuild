@@ -1,4 +1,4 @@
-# Kernel module "hellomoto" for testing purposes.
+# Kbuild rules for MotoMAGX kernel module "hellomoto" for testing purposes.
 # Written by EXL, 27-Oct-2021.
 
 include ${PROPFILES}
