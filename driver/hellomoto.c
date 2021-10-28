@@ -52,13 +52,13 @@ static int hellomoto_write(struct file *filp, const char *buffer, unsigned long 
 	return buffer_size;
 }
 
-static int module_permission(struct inode *inode, int op, struct nameidata *foo) {
+static int hellomoto_permission(struct inode *inode, int op, struct nameidata *foo) {
 	if (op == 4 || op == 2) /* 2: write, 4: read */
 		return 0;
 	return -EACCES;
 }
 
-static struct inode_operations iops = { .permission = module_permission };
+static struct inode_operations iops = { .permission = hellomoto_permission };
 
 static int hellomoto_init(void) {
 	printk(KERN_INFO "hellomoto: Hello, MotoMAGX modders!\n");
