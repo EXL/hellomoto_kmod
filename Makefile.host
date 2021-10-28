@@ -1,8 +1,0 @@
-# Makefile for host kernel module "hellomoto" for testing purposes.
-# Written by EXL, 27-Oct-2021.
-
-all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD)/driver modules
-
-clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD)/driver clean
