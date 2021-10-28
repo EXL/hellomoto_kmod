@@ -21,10 +21,10 @@ static struct proc_dir_entry *g_ptr_proc_file = NULL;
 
 static int hellomoto_read(char *buffer, char **buffer_location, off_t offset, int buffer_length, int *eof, void *data) {
 	if (offset <= 0) {
+		unsigned int message_length;
 		char message[PROC_MESSAGE_LENGTH] = { '\0' };
-		unsigned int message_length = strlen(message);
-		unsigned int gpio_data = gpio_signal_get_data_check(GPIO_SIGNAL_LENS_COVER);
-		snprintf(message, PROC_MESSAGE_LENGTH, "0x%08X", gpio_data);
+		snprintf(message, PROC_MESSAGE_LENGTH, "0x%08X\n", gpio_signal_get_data_check(GPIO_SIGNAL_LENS_COVER));
+		message_length = strlen(message);
 		memcpy(buffer, message, message_length);
 		return message_length;
 	}
@@ -60,15 +60,15 @@ static struct inode_operations g_struct_inode_ops = {
 static int hellomoto_init(void) {
 	printk(KERN_ALERT "hellomoto: Hello, MotoMAGX modders!\n");
 	g_ptr_proc_file = create_proc_entry(PROC_ENTRY_FILENAME, 0644, NULL);
-	g_ptr_proc_file->owner = THIS_MODULE;
-	g_ptr_proc_file->proc_iops = &g_struct_inode_ops;
-	g_ptr_proc_file->read_proc = hellomoto_read;
-	g_ptr_proc_file->write_proc = hellomoto_write;
 	if (g_ptr_proc_file == NULL) {
 		remove_proc_entry(PROC_ENTRY_FILENAME, &proc_root);
 		printk(KERN_ALERT "hellomoto: Could not initialize \"/proc/hellomoto\", sorry!\n");
 		return -ENOMEM;
 	}
+	g_ptr_proc_file->owner = THIS_MODULE;
+	g_ptr_proc_file->proc_iops = &g_struct_inode_ops;
+	g_ptr_proc_file->read_proc = hellomoto_read;
+	g_ptr_proc_file->write_proc = hellomoto_write;
 	return 0;
 }
 
