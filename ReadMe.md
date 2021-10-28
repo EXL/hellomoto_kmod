@@ -86,7 +86,7 @@ dmesg
 
 # Get status of camera lens cover by GPIO pin.
 # See GPIO signals here: https://github.com/fillsa/motomagx-kernel_linux_hardhat/blob/master/linux-2.6.x/include/asm-arm/mot-gpio.h
-cat /proc/hellomoto # Get status of camera lens cover.
+cat /proc/hellomoto
 ```
 
 ## Information
