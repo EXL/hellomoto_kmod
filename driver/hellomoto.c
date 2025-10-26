@@ -1,7 +1,7 @@
 /*
  * Kernel module "hellomoto" for testing purposes.
  * Written by EXL, 27-Sep-2016.
- * Edited by EXL, 28-Oct-2021.
+ * Edited by EXL, 27-Oct-2025.
  */
 
 #include <asm/io.h>
