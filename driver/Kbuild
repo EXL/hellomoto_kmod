@@ -1,10 +1,14 @@
 # Kbuild rules for MotoMAGX kernel module "hellomoto" for testing purposes.
 # Written by EXL, 27-Oct-2021.
+# Edited  by EXL, 27-Oct-2025.
 
 include ${PROPFILES}
 
 MODULE_NAME = hellomoto
 
-CFLAGS += -O2 -I$(STD_INCPATH)
+FLAVOR += -DFTR_HELLOMOTO
+# FLAVOR += -DFTR_DUMP_IROM
+
+CFLAGS += -O2 -I$(STD_INCPATH) $(FLAVOR)
 
 obj-m := $(MODULE_NAME).o

@@ -89,6 +89,9 @@ dmesg
 # Get status of camera lens cover by GPIO pin.
 # See GPIO signals here: https://github.com/fillsa/motomagx-kernel_linux_hardhat/blob/master/linux-2.6.x/include/asm-arm/mot-gpio.h
 cat /proc/hellomoto
+
+# Alt. Dump IROMs, 0x00000000-0x00003FFF (0x4000) and 0x00404000-0x00407FFF (0x4000) will be merged into one binary file.
+cat /proc/iroms > iroms.bin
 ```
 
 ## Information
